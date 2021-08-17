@@ -1,2 +1,2 @@
 # TP1AEDES2
-Trabalho Pratico, disciplina AEDES2
+Trabalho Prático, disciplina AEDES2
