@@ -1,2 +1,2 @@
 all:
-	gcc -g main.c Patricia.c
+	gcc -g main.c arquivo.c Patricia.c 

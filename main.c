@@ -1,13 +1,15 @@
-#include "./Patricia.h"
+#include "./arquivo.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 int main(){
+    FILE* file;
     apointerP root = NULL;
-    insertRoot(&root, "010010");
-    insertRoot(&root, "010011");
-    insertRoot(&root, "011000");
-    insertRoot(&root, "100001");
-    insertRoot(&root, "101000");
-    insertRoot(&root, "101111");
-    busca(&root, "1011");
+
+    insertArq(file, "texto.txt", &root);
+
+    busca(&root, "available");
+    
 }

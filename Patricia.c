@@ -18,12 +18,12 @@ void insertRoot(apointerP* root, char* string){
     }
 }
 
-void iInsert(apointerP* root, char* string, apointerP* no,int*  flag, dierecao dir, int* cont){
+void iInsert(apointerP* root, char* string, apointerP* no,int*  flag, direcao dir, int* cont){
     int fim = (*cont);
     (*cont)++;
     if ((*root)->tipo == Interno){
         int i = (*root)->NoI.index;
-        if ((*root)->NoI.bit > string[i]){
+        if (string[i] < (*root)->NoI.bit){
             iInsert(&(*root)->NoI.left, string, no, flag, dir, (cont));
             dir = left;
         }else {
@@ -59,25 +59,154 @@ void createNo(apointerP* no, char* string, int index){
     criaNoExterno(&externo, string);
     (*no)->NoI.right = externo;
 }
-void insertInicio(apointerP* no, apointerP* root,dierecao dir){
+void insertInicio(apointerP* no, apointerP* root,direcao dir){
+    int i = (*no)->NoI.index;
     if (dir == right){
-        (*no)->NoI.left = (*root);
-        (*root)= (*no);
+        if ((*no)->NoI.bit > (*root)->NoI.right->NoI.key[i]){
+            (*no)->NoI.left = (*root);
+            (*root)= (*no);
+        }else{
+            (*no)->NoI.left = (*no)->NoI.right;
+            (*no)->NoI.right = (*root);
+            (*root) = (*no);
+        }
     }else{
-        (*no)->NoI.left = (*root);
-        (*root) = (*no);
+         if ((*no)->NoI.bit > (*root)->NoI.left->NoI.key[i]){
+            (*no)->NoI.left = (*root);
+            (*root)= (*no);
+        }else{
+            (*no)->NoI.bit = (*root)->NoI.left->NoI.key[i];
+            (*no)->NoI.left = (*no)->NoI.right;
+            (*no)->NoI.right = (*root);
+            (*root) = (*no);
+        }
     }
 }
-void insert(apointerP* no, apointerP* root, dierecao dir){
+// void insert(apointerP* no, apointerP* root, direcao dir){
+//     if (dir == right){
+//         int i =  (*no)->NoI.index;
+//         if ((*root)->NoI.right->tipo == Externo){
+//             if ((*no)->NoI.bit >= (*root)->NoI.right->NoI.bit){
+//                 if (dir == right){
+//                     (*no)->NoI.left = (*root)->NoI.right;
+//                     (*root)->NoI.right = (*no);
+//                     return;
+//                 }else{
+//                     (*no)->NoI.left = (*root)->NoI.left;
+//                     (*root)->NoI.left = (*no);
+//                     returnb 
+//             }
+//         }else{
+//             if ((*no)->NoI.bit >= (*root)->NoI.right->NoI.key[i]){
+//                 if (dir == right){
+//                     (*no)->NoI.left = (*root)->NoI.right;
+//                     (*root)->NoI.right = (*no);
+//                 }else{
+//                     (*no)->NoI.left = (*root)->NoI.left;
+//                     (*root)->NoI.left = (*no);
+//             }
+//         }
+        
+//         }else{
+//             if (dir == right){
+//                 (*no)->NoI.bit = (*root)->NoI.right->NoI.key[i];
+//                 (*no)->NoI.left = (*no)->NoI.right;
+//                 (*no)->NoI.right = (*root)->NoI.right;
+//                 (*root)->NoI.right = (*no);
+//             }else{
+//                 (*no)->NoI.bit = (*root)->NoI.left->NoI.key[i];
+//                 (*no)->NoI.left = (*no)->NoI.right;
+//                 (*no)->NoI.right = (*root)->NoI.left;
+//                 (*root)->NoI.left = (*no);
+//             }
+//         }
+//     }else {
+//         int i =  (*no)->NoI.index;
+//         if ((*no)->NoI.bit >= (*root)->NoI.left->NoI.key[i]){
+//             if (dir == right){
+//                 (*no)->NoI.left = (*root)->NoI.right;
+//                 (*root)->NoI.right = (*no);
+//             }else{
+//                 (*no)->NoI.left = (*root)->NoI.left;
+//                 (*root)->NoI.left = (*no);
+//             }
+//         }else{
+//             if (dir == right){
+//                 (*no)->NoI.bit = (*root)->NoI.right->NoI.key[i];
+//                 (*no)->NoI.left = (*no)->NoI.right;
+//                 (*no)->NoI.right = (*root)->NoI.right;
+//                 (*root)->NoI.right = (*no);
+//             }else{
+//                 (*no)->NoI.bit = (*root)->NoI.left->NoI.key[i];
+//                 (*no)->NoI.left = (*no)->NoI.right;
+//                 (*no)->NoI.right = (*root)->NoI.left;
+//                 (*root)->NoI.left = (*no);
+//             }
+//         }
+//     }
+// }
+
+void insert(apointerP* no, apointerP* root, direcao dir){
+    direcao lado;
     if (dir == right){
-        (*no)->NoI.left = (*root)->NoI.right;
-        (*root)->NoI.right = (*no);
+        if ((*root)->NoI.right->tipo == Interno){
+            lado = find(&(*root)->NoI.right, (*no)->NoI.bit, (*no)->NoI.index);
+            if (lado == right){
+                (*no)->NoI.left = (*root)->NoI.right;
+                (*root)->NoI.right = (*no);
+            }else{
+                (*no)->NoI.left = (*no)->NoI.right;
+                (*no)->NoI.right = (*root)->NoI.right;
+                (*root)->NoI.right = (*no);
+            }
+        }else{
+            int i = (*no)->NoI.index;
+            if((*root)->NoI.right->NoI.key[i] < (*no)->NoI.bit){
+                (*no)->NoI.left = (*root)->NoI.right;
+                (*root)->NoI.right = (*no);
+            }else{
+                (*no)->NoI.left = (*no)->NoI.right;
+                (*no)->NoI.right = (*root)->NoI.right;
+                (*root)->NoI.right = (*no);
+            }
+            
+        }
     }else{
-        (*no)->NoI.left = (*root)->NoI.left;
-        (*root)->NoI.left = (*no);
+        if ((*root)->NoI.left->tipo == Interno){
+            lado = find(&(*root)->NoI.left, (*no)->NoI.bit, (*no)->NoI.index);
+            if (lado == right){
+                (*no)->NoI.left = (*root)->NoI.left;
+                (*root)->NoI.left = (*no);
+            }else{
+                (*no)->NoI.left = (*no)->NoI.right;
+                (*no)->NoI.right = (*root)->NoI.left;
+                (*root)->NoI.left = (*no);
+            }
+        }else{
+            int i = (*no)->NoI.index;
+            if((*root)->NoI.left->NoI.key[i] < (*no)->NoI.bit){
+                (*no)->NoI.left = (*root)->NoI.left;
+                (*root)->NoI.left = (*no);
+            }else{
+                (*no)->NoI.left = (*no)->NoI.right;
+                (*no)->NoI.right = (*root)->NoI.left;
+                (*root)->NoI.left = (*no);
+            }
+            
+        }
     }
 }
 
+direcao find(apointerP* root, char x, int index){
+    apointerP aux = (*root);
+
+    while(aux->tipo == Interno){
+        aux = aux->NoI.right;
+    }
+
+    if (aux->NoI.key[index] >= x) return left;
+    else return right;
+}
 
 void criaNoInterno(apointerP* root, int* index,char* string){
     (*root) = (apointerP) malloc(sizeof(Patricia));
@@ -104,17 +233,33 @@ void caseOne(apointerP* no, apointerP* root, char* string){
         index++;
         j++;
     }
-    createNo(no, string, index);
-    (*no)->NoI.left = (*root);
-    (*root) = (*no);
+    if ((*root)->NoI.key[index-1] ==  string[index-1] && strlen(string) <= j){
+        createNo(no, (*root)->NoI.key, index);
+        strcpy((*root)->NoI.key, string);
+        (*no)->NoI.left = (*root);
+        (*root) = (*no);
+        return;
+    }
+    if (string[index] >= (*root)->NoI.key[index]){
+        createNo(no, string, index);
+        (*no)->NoI.left = (*root);
+        (*root) = (*no);
+    }
+    else{
+        createNo(no, string, index);
+        (*no)->NoI.left = (*no)->NoI.right;
+        (*root)->NoI.bit = (*no)->NoI.key[index];
+        (*no)->NoI.right = (*root);
+        (*root) = (*no);
+    }
 }
 
 void busca(apointerP* root, char* string){
     if((*root)->tipo == Interno){
         int i = (*root)->NoI.index;
-        if ((*root)->NoI.bit > string[i]){
-            busca(&(*root)->NoI.left, string);
-        }else busca(&(*root)->NoI.right, string);
+        if (string[i] >= (*root)->NoI.bit && i < strlen(string)){
+            busca(&(*root)->NoI.right, string);
+        }else busca(&(*root)->NoI.left, string);
     }else if (!stricmp((*root)->NoI.key, string)){
         printf("esta na arvore\n");
     }
