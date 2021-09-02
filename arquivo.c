@@ -1,15 +1,14 @@
 #include "./arquivo.h"
 #include <string.h>
+#include <ctype.h>
 
-void insertArq(FILE* file, char* arquivo, apointerP* root){
+void insertArq(FILE* file, char* arquivo, apointerP* root, int idDoc){
     char c;
     char palavra[30];
     int cont = 0, flag = 0;
     apointerP* no;
     apointerDoc* aux; 
     no = NULL;
-    int idDoc = 1;
-
     file = fopen(arquivo, "r");
     
     if (file == NULL){
@@ -19,7 +18,7 @@ void insertArq(FILE* file, char* arquivo, apointerP* root){
 
     do{
         c = fgetc(file);
-        if (c == ' ' || c == '.' || c == ','){
+        if (c == ' ' || c == '.' || c == ',' || c == '\n' || c == '?'){
             if (flag == 0){
                 palavra[cont] = '\0';
                 if ((*root) != NULL){
@@ -27,30 +26,44 @@ void insertArq(FILE* file, char* arquivo, apointerP* root){
                     if (!strcmp(palavra, (*no)->NoI.key)){
                        aux = &(*no)->NoI.doc;
 
-                        while(idDoc != (*aux)->idDoc){
-                            aux = &(*aux)->next;
+                        do{
+
                             if ((*aux) == NULL){
                                 criaDoc(aux, idDoc);
+                                cont = 0;
+                                flag = 1;
                                 break;
-                            } 
-                        }
-                        if (idDoc == (*aux)->idDoc) (*aux)->qtd ++;
+                            }
+
+                            if (idDoc == (*aux)->idDoc) {
+                                (*aux)->qtd ++;
+                                cont = 0;
+                                flag = 1;
+                                break;
+                            }                          
+
+                            aux = &(*aux)->next;
+
+                        }while(1);
+                        
                     }else{
-                        insertRoot(root, palavra, idDoc);   
+                        insertRoot(root, palavra, idDoc);
+                        cont = 0;
+                        flag = 1;   
                     }
                 }else{
-                    insertRoot(root, palavra, idDoc);   
+                    insertRoot(root, palavra, idDoc); 
+                    cont = 0;
+                    flag = 1;  
                 }
-
-                flag = 1;
-                cont = 0;
-            }else cont++;
+            }
         } 
         else{
-            palavra[cont] = c;
+            palavra[cont] = tolower(c);
             cont++;
             flag = 0;
         }
 
     }while(c != EOF);
+    fclose(file);
 }

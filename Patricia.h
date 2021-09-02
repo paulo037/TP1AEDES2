@@ -39,7 +39,7 @@ void criaNoInterno(apointerP* root, int* index,char* string);
 void criaNoExterno(apointerP* root,char* string,int idDoc);
 void insertRoot(apointerP* root, char* string, int idDoc);
 void iInsert(apointerP* root, char* string, apointerP* no,int*  flag, direcao dir, int* end,  int idDoc);
-void createNo(apointerP* no, char* string, int index, int idDoc);
+void createNo(apointerP* no, char* string, int index, int idDoc, direcao dir);
 void insert(apointerP* no, apointerP* root, direcao dir);
 void caseOne(apointerP* no, apointerP* root, char* string, int idDoc);
 void insertInicio(apointerP* no, apointerP* root,direcao dir);

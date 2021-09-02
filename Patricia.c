@@ -43,7 +43,7 @@ void iInsert(apointerP* root, char* string, apointerP* no,int*  flag, direcao di
             index++;
             j++;
         }
-        createNo(no, string, index, idDoc);
+        createNo(no, string, index, idDoc, right);
         return;
     }
     if (!fim && !(*flag)){
@@ -53,11 +53,12 @@ void iInsert(apointerP* root, char* string, apointerP* no,int*  flag, direcao di
     }
 }
 
-void createNo(apointerP* no, char* string, int index, int idDoc){
+void createNo(apointerP* no, char* string, int index, int idDoc, direcao dir){
     apointerP externo = NULL;
     criaNoInterno(no, &index, string);
     criaNoExterno(&externo, string, idDoc);
-    (*no)->NoI.right = externo;
+    if (dir == right) (*no)->NoI.right = externo;
+    else (*no)->NoI.left = externo;
 }
 
 void insertInicio(apointerP* no, apointerP* root,direcao dir){
@@ -116,8 +117,10 @@ void insert(apointerP* no, apointerP* root, direcao dir){
                 (*no)->NoI.left = (*root)->NoI.left;
                 (*root)->NoI.left = (*no);
             }else{
+                int i = (*no)->NoI.index;
                 (*no)->NoI.left = (*no)->NoI.right;
                 (*no)->NoI.right = (*root)->NoI.left;
+                (*no)->NoI.bit = (*root)->NoI.left->NoI.key[i];
                 (*root)->NoI.left = (*no);
             }
         }else{
@@ -128,6 +131,7 @@ void insert(apointerP* no, apointerP* root, direcao dir){
             }else{
                 (*no)->NoI.left = (*no)->NoI.right;
                 (*no)->NoI.right = (*root)->NoI.left;
+                (*no)->NoI.bit = (*root)->NoI.left->NoI.key[i];
                 (*root)->NoI.left = (*no);
             }
             
@@ -173,22 +177,20 @@ void caseOne(apointerP* no, apointerP* root, char* string, int idDoc){
         j++;
     }
     if ((*root)->NoI.key[index-1] ==  string[index-1] && strlen(string) <= j){
-        createNo(no, (*root)->NoI.key, index, (*root)->NoI.doc->idDoc);
-        strcpy((*root)->NoI.key, string);
-        (*root)->NoI.doc->idDoc = idDoc;
-        (*no)->NoI.left = (*root);
+        createNo(no, string, index, idDoc, left);
+        (*no)->NoI.bit = (*root)->NoI.key[index];
+        (*no)->NoI.right = (*root);
         (*root) = (*no);
         return;
     }
     if (string[index] >= (*root)->NoI.key[index]){
-        createNo(no, string, index, idDoc);
+        createNo(no, string, index, idDoc, right);
         (*no)->NoI.left = (*root);
         (*root) = (*no);
     }
     else{
-        createNo(no, string, index, idDoc);
-        (*no)->NoI.left = (*no)->NoI.right;
-        (*root)->NoI.bit = (*no)->NoI.key[index];
+        createNo(no, string, index, idDoc, left);
+        (*no)->NoI.bit = (*root)->NoI.key[index];
         (*no)->NoI.right = (*root);
         (*root) = (*no);
     }
