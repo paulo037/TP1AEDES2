@@ -8,6 +8,14 @@ typedef enum{
 
 typedef struct Patricia* apointerP;
 
+typedef struct doc* apointerDoc;
+
+typedef struct doc{
+    int qtd;
+    int idDoc;
+    apointerDoc next;
+}Doc;
+
 typedef struct Patricia {
 
     tipoNo tipo;
@@ -17,20 +25,23 @@ typedef struct Patricia {
           char bit;
           apointerP left, right;
         };
-        char* key;
+        struct{
+            char* key;
+            apointerDoc doc;
+        };
     }NoI;
   
 }Patricia;
 
 
-
+void criaDoc(apointerDoc* doc, int idDoc);
 void criaNoInterno(apointerP* root, int* index,char* string);
-void criaNoExterno(apointerP* root,char* string);
-void insertRoot(apointerP* root, char* string);
-void iInsert(apointerP* root, char* string, apointerP* no,int*  flag, direcao dir, int* end);
-void createNo(apointerP* no, char* string, int index);
+void criaNoExterno(apointerP* root,char* string,int idDoc);
+void insertRoot(apointerP* root, char* string, int idDoc);
+void iInsert(apointerP* root, char* string, apointerP* no,int*  flag, direcao dir, int* end,  int idDoc);
+void createNo(apointerP* no, char* string, int index, int idDoc);
 void insert(apointerP* no, apointerP* root, direcao dir);
-void caseOne(apointerP* no, apointerP* root, char* string);
+void caseOne(apointerP* no, apointerP* root, char* string, int idDoc);
 void insertInicio(apointerP* no, apointerP* root,direcao dir);
-void busca(apointerP* root, char* string);
+apointerP* busca(apointerP* root, char* string);
 direcao find(apointerP*, char x, int index);

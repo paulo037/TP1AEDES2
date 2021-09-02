@@ -7,9 +7,7 @@
 int main(){
     FILE* file;
     apointerP root = NULL;
-
     insertArq(file, "texto.txt", &root);
-
-    busca(&root, "available");
+    busca(&root, "are");
     
 }
