@@ -8,8 +8,9 @@ int main(){
     FILE* file;
     apointerP root = NULL;
     apointerP* no;
+    apointerTxt arquivosTxt = NULL;
     
-     int opc, idatual = 1;
+    int opc, idatual = 1;
     char arquivo[20];
 
     do{ 
@@ -23,8 +24,8 @@ int main(){
                 printf("arquivo não encontrado");
                 break;
              }
-            // criaArq(file, , idatual, "texto");
-            insertArq(file, arquivo, &root, idatual);
+            criaArqTxt(&arquivosTxt, arquivo, idatual);
+            insertArq(file, arquivo, &root, idatual, &arquivosTxt);
             idatual++;
             break;
         
