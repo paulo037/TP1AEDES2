@@ -12,6 +12,7 @@ typedef struct no{
 
 }Node;
 
+void Dicionario(Node **pointer,FILE *fp,char *palavra);
 Node *novoNo(char data);
 void insere(Node **raiz, char *palavra);
 void percorreI(Node *raiz, char *buffer, int profundidade);
