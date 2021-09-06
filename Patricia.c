@@ -89,13 +89,15 @@ void insert(apointerP* no, apointerP* root, direcao dir){
     direcao lado;
     if (dir == right){
         if ((*root)->NoI.right->tipo == Interno){
-            lado = find(&(*root)->NoI.right, (*no)->NoI.bit, (*no)->NoI.index);
+            int i = (*no)->NoI.index;
+            lado = find(&(*root)->NoI.right, (*no)->NoI.bit, i);
             if (lado == right){
                 (*no)->NoI.left = (*root)->NoI.right;
                 (*root)->NoI.right = (*no);
             }else{
                 (*no)->NoI.left = (*no)->NoI.right;
                 (*no)->NoI.right = (*root)->NoI.right;
+                (*no)->NoI.bit = (*root)->NoI.right->NoI.key[i];
                 (*root)->NoI.right = (*no);
             }
         }else{
@@ -105,6 +107,7 @@ void insert(apointerP* no, apointerP* root, direcao dir){
                 (*root)->NoI.right = (*no);
             }else{
                 (*no)->NoI.left = (*no)->NoI.right;
+                (*no)->NoI.bit = (*root)->NoI.right->NoI.key[i];
                 (*no)->NoI.right = (*root)->NoI.right;
                 (*root)->NoI.right = (*no);
             }
@@ -215,6 +218,19 @@ void criaDoc(apointerDoc* doc, int idDoc){
     (*doc)->next = NULL;
 }
 
-//  if (!stricmp((*root)->NoI.key, string)){
-//         printf("esta na arvore\n");
-//     }
+void printPat(apointerP* root){
+
+    if ((*root)->tipo == Interno){
+        printPat(&(*root)->NoI.left);
+        printPat(&(*root)->NoI.right);
+    }else{
+        apointerDoc aux = (*root)->NoI.doc;
+        printf("%s",  (*root)->NoI.key);
+        while(aux != NULL){
+            printf(" <%d,%d>",aux->qtd, aux->idDoc  );
+            aux = aux->next;
+        }
+        printf("\n");
+    }
+    
+}

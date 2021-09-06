@@ -9,12 +9,6 @@ void insertArq(FILE* file, char* arquivo, apointerP* root, int idDoc){
     apointerP* no;
     apointerDoc* aux; 
     no = NULL;
-    file = fopen(arquivo, "r");
-    
-    if (file == NULL){
-        printf("arquivo não encontrado");
-        return;
-    }
 
     do{
         c = fgetc(file);

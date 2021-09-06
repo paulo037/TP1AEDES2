@@ -8,22 +8,33 @@ int main(){
     FILE* file;
     apointerP root = NULL;
     apointerP* no;
-    char list[11][20] = {{"apartamento"}, {"casa"}, {"em"}, {"entrar"}, {"ninguem"},{"porem"}, {"quem"}, {"quer"}, {"sairam"}, {"tambem"}, {"todos"}};
-    insertArq(file, "texto.txt", &root, 1);
-    insertArq(file, "texto2.txt", &root, 2);
+    
+     int opc, idatual = 1;
+    char arquivo[20];
 
-    apointerDoc aux;
-
-    for (int i = 0; i < 11; i++){    
-        no = busca(&root, list[i]);
-        aux = (*no)->NoI.doc;
-        while(aux != NULL){
-            if (!strcmp(list[i], (*no)->NoI.key)){
-                printf("[%s] no documento %d repetiu %d vezes\n", list[i], aux->idDoc, aux->qtd );
-            }
-            aux = aux->next;
+    do{ 
+        printf("(1) Inserir Arquivo\n(2) printar Patricia\n(3) Busca\n ->");
+        scanf("%d", &opc);
+        switch (opc){
+        case 1:
+            scanf("%s", arquivo);
+            file = fopen(arquivo, "r");
+             if (file == NULL){
+                printf("arquivo não encontrado");
+                break;
+             }
+            // criaArq(file, , idatual, "texto");
+            insertArq(file, arquivo, &root, idatual);
+            idatual++;
+            break;
+        
+        case 2:
+            printPat(&root);
+            break;
+        default:
+            break;
         }
-    }
+    }while(opc != 0);
     
 }
 
