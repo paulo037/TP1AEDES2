@@ -14,14 +14,14 @@ int main(){
     char arquivo[20];
 
     do{ 
-        printf("(1) Inserir Arquivo\n(2) printar Patricia\n(3) Busca\n ->");
+        printf("\t\t\tMENU\t\t\t\n\n(1) Inserir Arquivo\n(2) printar Patricia\n(3) Busca\n ->");
         scanf("%d", &opc);
         switch (opc){
         case 1:
             scanf("%s", arquivo);
             file = fopen(arquivo, "r");
              if (file == NULL){
-                printf("arquivo não encontrado");
+                printf("arquivo não encontrado\n");
                 break;
              }
             criaArqTxt(&arquivosTxt, arquivo, idatual);
@@ -31,6 +31,11 @@ int main(){
         
         case 2:
             printPat(&root);
+            break;
+
+        case 3:
+            search(&arquivosTxt, root);
+            printOrdenado(&arquivosTxt);
             break;
         default:
             break;
