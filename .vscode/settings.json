@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "gtk.h": "c",
+        "gdk.h": "c",
+        "gdkconfig.h": "c",
+        "glib.h": "c",
+        "galloca.h": "c",
+        "gtypes.h": "c",
+        "gmacros.h": "c",
+        "alloca.h": "c",
+        "glibconfig.h": "c",
+        "stddef.h": "c"
+    }
+}
