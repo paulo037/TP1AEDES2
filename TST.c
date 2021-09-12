@@ -1,5 +1,6 @@
 #include "TST.h"
 
+
 void Dicionario(Node **pointer,FILE *fp,char *palavra){
     int i;
     while(fgets(palavra,30,fp)){
@@ -11,6 +12,8 @@ void Dicionario(Node **pointer,FILE *fp,char *palavra){
         insere(pointer,palavra); 
     }
 }
+
+
 Node *novoNo(char data){
     Node *novo=(Node*)malloc(sizeof(Node));
     novo->chave=data;
