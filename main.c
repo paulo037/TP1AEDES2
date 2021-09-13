@@ -10,6 +10,7 @@ typedef struct{
     char palavra[30];
 }user_data;
 
+int row=0;
 user_data data;
 GtkWidget *window;
 GtkWidget *container;
@@ -28,8 +29,24 @@ GtkBuilder *builder;
 
 /*================Funções=================*/
 
+void GTK(Node *raiz, char *buffer, int profundidade, int row){
+    if(raiz!=NULL){
+        GTK(raiz->Direita, buffer, profundidade,row);
+        buffer[profundidade]=raiz->chave;
+        if(raiz->ender==1){
+            buffer[profundidade+1]='\0';
+            gtk_grid_insert_row(GTK_GRID(grid4),row);
+            button[row]=gtk_button_new_with_label(buffer);
+            gtk_button_set_alignment (GTK_BUTTON(button[row]), 0.0, 0.5);
+            gtk_grid_attach(GTK_GRID(grid4),button[row],1,row,1,1);
+            row++;
+            
+        }
+        GTK(raiz->Meio, buffer, profundidade+1,row);
+        GTK(raiz->Esquerda, buffer, profundidade,row);
+    }
+}
 int gtkmain(int argc, char *argv[]){
-    int row=0;
     char aux[30];
     gtk_init(&argc,&argv);
 
@@ -49,16 +66,9 @@ int gtkmain(int argc, char *argv[]){
     grid4=GTK_WIDGET(gtk_builder_get_object(builder, "grid4"));
 
     if(data.fp!=NULL){
+        Dicionario(&(data.raiz),data.fp,&(data.palavra[0]));
         gtk_label_set_text(label2,(const gchar*)"As palavras foram inseridas com sucesso!");
-        while(fgets(aux,30,data.fp)){
-            aux[strlen(aux)-1]=0;
-            insere(&(data.raiz),aux); 
-            gtk_grid_insert_row(GTK_GRID(grid4), row);
-            button[row]=gtk_button_new_with_label(aux);
-            gtk_button_set_alignment (GTK_BUTTON(button[row]), 0.0, 0.5);
-            gtk_grid_attach(GTK_GRID(grid4),button[row],1,row,1,1);
-            row++;
-        }
+        GTK(data.raiz,data.fp,0,row);
     }
     else{
         gtk_label_set_text(label2,(const gchar*)"Falha com o arquivo!");
@@ -91,13 +101,8 @@ int main(int argc, char *argv[])
 {
 
     data.raiz=NULL;
-    data.fp=fopen("Dicionario//Dictionary.txt","r");
+    data.fp=fopen("Dicionario//Dicionary.txt","r");
     gtkmain(argc,argv);
-    printf("PALAVRAS:\n");
-    printf("\n\nPESQUISA:");
-    if(data.fp!=NULL){
-        search(data.raiz,"abandon")? printf("ENCONTROU\n"):printf("NAO ENCONTROU\n");
-    }
     fclose(data.fp);
     return 0;
 }
