@@ -52,6 +52,7 @@ int gtkmain(int argc, char *argv[]){
         gtk_label_set_text(label2,(const gchar*)"As palavras foram inseridas com sucesso!");
         while(fgets(aux,30,data.fp)){
             aux[strlen(aux)-1]=0;
+            insere(&(data.raiz),aux); 
             gtk_grid_insert_row(GTK_GRID(grid4), row);
             button[row]=gtk_button_new_with_label(aux);
             gtk_button_set_alignment (GTK_BUTTON(button[row]), 0.0, 0.5);
