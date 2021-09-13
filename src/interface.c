@@ -152,49 +152,6 @@ void init_list(GtkWidget *list, char* title, int* N_COLUMNS) {
 
 
 
-void new_iters(GtkIters **iter){
-    (*iter) = (GtkIters*) malloc(sizeof(GtkIters));
-    (*iter)->next = NULL;
-    (*iter)->pos = 0;
-    (*iter)->len = 0;
-}
-
-void add_iters(GtkIters **iter, int pos){
-    if ((*iter) == NULL){
-        (*iter) = (GtkIters*) malloc(sizeof(GtkIters));
-        (*iter)->next = NULL;
-        (*iter)->pos = pos;
-        (*iter)->len = 0;
-        return;
-    }else{
-        add_iters(&(*iter)->next, pos);
-    }
-}
-
-GtkIters* get_iters(GtkIters **its, int pos){
-    GtkIters *iter;
-    if ((*its) == NULL){
-        return iter;
-    }
-
-    if ((*its)->pos  == pos){
-        return (*its);
-    }else{
-        iter = get_iters(&(*its)->next, pos);
-    }
-    return iter;
-}
-
-void get_n_lines(GtkIters **its, int* n){
-    if ((*its) != NULL){
-        if ((*its)->len > (*n)){
-            (*n) = (*its)->len;
-        }
-        else get_n_lines(&(*its)->next, n);
-    }
-}
-
-
 void viewPat(apointerP* root, GtkWidget *pat_view, int n){
     int len, j;
     char string[20];

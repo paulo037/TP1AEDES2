@@ -8,12 +8,6 @@ typedef GtkListBoxForeachFunc (*ptr)(GtkWidget *row, GtkListBox* list_view, gpoi
 
 typedef struct ArquivoTxt* apointerTxt;
 
-typedef struct iters{
-  GtkTreeIter *iter;
-  int pos;
-  int len;
-  struct iters *next;
-}GtkIters;
 
 typedef struct ArquivoTxt{
     char name[20];

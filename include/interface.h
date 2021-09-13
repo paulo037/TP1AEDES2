@@ -41,14 +41,6 @@ void list_remove_all(GtkWidget *list_view );
 
 void gtk_get_types(GType *tipo, int n);
 
-void new_iters(GtkIters **iter);
-
-GtkIters *get_iters(GtkIters **its, int pos);
-
-void add_iters(GtkIters **iter, int pos);
-
-void get_n_lines(GtkIters **its, int* n);
-
 void viewPat(apointerP* root, GtkWidget *pat_view, int n);
 
 void convert(int id, int qtde, char string[]);
