@@ -1,7 +1,11 @@
-#include "./Patricia.h"
+#include "../include/Patricia.h"
+//#include "../include/arquivo.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <gtk/gtk.h>
+
+GtkTreeIter iter;
 
 void insertRoot(apointerP* root, char* string, int idDoc){
     if ((*root) == NULL){

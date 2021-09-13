@@ -1,3 +1,5 @@
+#include <gtk/gtk.h>
+
 typedef enum{
     Interno, Externo
 }tipoNo;
@@ -45,3 +47,4 @@ void caseOne(apointerP* no, apointerP* root, char* string, int idDoc);
 void insertInicio(apointerP* no, apointerP* root,direcao dir);
 apointerP* busca(apointerP* root, char* string);
 direcao find(apointerP*, char x, int index);
+

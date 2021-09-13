@@ -1,9 +1,13 @@
-#include "./arquivo.h"
+#include "../include/arquivo.h"
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <gtk/gtk.h>
+
+
+
 
 void insertArq(FILE* file, char* arquivo, apointerP* root, int idDoc, apointerTxt* arquivosTxt){
     char c;
@@ -92,14 +96,14 @@ void findTxt(apointerTxt* arquivosTxt, apointerTxt* arqTxt, int idDoc){
     }
 }
 
-void search(apointerTxt* arquivosTxt, apointerP root){
-    char termos[100], termoDeBusca[20];
+void search(apointerTxt* arquivosTxt, apointerP root, char termos[]){
+    char termoDeBusca[20];
     char* termo;
     apointerP no;
     apointerTxt  arqAtual;
 
-    fflush(stdin);
-    gets(termos);
+    if (root == NULL || (*arquivosTxt) == NULL)return;
+
     termo = strtok(termos, ", \n\0");
 
     zeraRelevancia(arquivosTxt);
@@ -165,39 +169,4 @@ void zeraRelevancia(apointerTxt* arquivosTxt){
         aux->relevancia = 0;
         aux = aux->next;
     }
-}
-
-void printOrdenado(apointerTxt* arquivosTxt){
-    apointerTxt maior, aux, no, pai;
-    apointerTxt* atual;
-
-    atual = arquivosTxt;
-    maior = (*arquivosTxt);
-    no = (*arquivosTxt);
-
-    while((*atual)->next != NULL){
-        while(no->next != NULL){
-            if(no->next->relevancia > maior->relevancia){
-                pai = no;
-                maior = no->next;
-            }
-            no = no->next;
-        }
-        if (maior->relevancia > (*atual)->relevancia){
-            aux = maior->next;
-            pai->next = aux;
-            maior->next = (*atual);
-            (*atual) = maior;
-        }
-        atual = &(*atual)->next;
-        maior = (*atual);
-        no = (*atual);
-    }
-    aux  = (*arquivosTxt);
-    printf("Resultado da Busca:\n\n");
-    while(aux != NULL){
-        printf("%s\n", aux->name);
-        aux = aux->next;
-    }
-    printf("\n\n");
 }
