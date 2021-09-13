@@ -19,7 +19,3 @@ void insere(Node **raiz, char *palavra);
 void percorreI(Node *raiz, char *buffer, int profundidade);
 void percorre(Node *raiz);
 int search(Node *raiz, char *palavra);
-
-
-
-
